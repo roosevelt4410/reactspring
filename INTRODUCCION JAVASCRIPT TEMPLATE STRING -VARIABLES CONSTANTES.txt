@@ -1,0 +1,21 @@
+npm create vite@latest
+
+NPM RUN DEV
+
+VARIABLES:
+
+
+
+let name ="Andres "
+const apellido = "Riobo"
+
+if(apellido == "Riobo"){
+    console.log("Hola como estas ? " + name + apellido);
+}else{
+    console.log("No te voy a saludar");
+}
+
+TEMPLATE STRING
+console.log(`No te voy a saludar ${lastname}`);
+
+

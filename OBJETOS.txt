@@ -1,0 +1,35 @@
+console.log("Objetos");
+
+interface Invoice {
+    id: number;
+    nombre: string;
+    date: Date;
+    client: Client;
+    total: number;
+    gretting:Function
+}
+
+interface Client{
+    id:number,
+    nombre:string,
+    lastname:string,
+    age:number
+}
+
+const invoice: Invoice = {
+    id: 10,
+    nombre: "Compras de oficina",
+    date: new Date(),
+    client: {
+        id:1,
+        nombre:'Andres Riobo',
+        lastname:"Lopez",
+        age:27,
+    },
+    total: 100,
+    gretting:function(lastname:string){
+        return `Hola ${this.client.nombre} ${lastname}`
+    }
+};
+
+console.log(invoice.gretting("Lopez"));

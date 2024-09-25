@@ -1,0 +1,44 @@
+
+interface User{
+    id:number,
+    nombre:string,
+    edad:number
+}
+
+const user:User = {
+    id:10,
+    nombre:"Andres",
+    edad:20
+}
+
+
+const {id,nombre,edad} = user;
+/* 
+console.log(id);
+console.log(nombre);
+console.log(edad); */
+
+
+function destructuringArray({id,nombre,edad}){
+    console.log(id);
+    console.log(nombre);
+    console.log(edad);
+}
+
+destructuringArray(user);
+
+const userss = ['pepe','ana','maria','juan'];
+
+const [pepe,ana,maria] = userss;
+
+console.log(pepe);
+console.log(ana);
+console.log(maria);
+
+
+const frutas = ['manzana', 'banana', 'uva','limon'];
+const [primeraFruta, segundaFruta,...rest] = frutas;
+
+console.log(primeraFruta); // Imprime: manzana
+console.log(segundaFruta); // Imprime: banana
+console.log(...rest);
