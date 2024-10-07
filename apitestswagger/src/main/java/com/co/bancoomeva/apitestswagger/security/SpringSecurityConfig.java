@@ -43,10 +43,14 @@ public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
+        		  .antMatchers("/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
+        		  .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+
         	      .antMatchers(HttpMethod.GET, "/users").permitAll()
                   .antMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("USER", "ADMIN")
                   .antMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                   .antMatchers("/users/**").hasAnyRole("USER", "ADMIN")
+                  .antMatchers("/api/consultarCiudades/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
@@ -56,6 +60,7 @@ public class SpringSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .build();
     }
+    
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

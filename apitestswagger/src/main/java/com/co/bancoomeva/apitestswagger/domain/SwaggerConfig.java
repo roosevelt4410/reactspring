@@ -14,6 +14,27 @@ import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
 
 
+
+//@Configuration
+//public class SwaggerConfig {
+//
+//    @Bean
+//    public Docket api() {
+//        return new Docket(DocumentationType.OAS_30) // OpenAPI 3.0
+//                .select()
+//                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
+//}
+
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+
+import java.util.List;
+
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
@@ -24,18 +45,25 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
+                .build()
+                .securitySchemes(List.of(apiKey())) // Agregar la seguridad del API Key
+                .securityContexts(List.of(securityContext())); // Configurar el contexto de seguridad
+    }
+
+    private ApiKey apiKey() {
+        return new ApiKey("JWT", "Authorization", "header");  // Definir JWT como método de autenticación en el header
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
                 .build();
     }
 
-    @Bean
-    public UiConfiguration uiConfig() {
-        return UiConfigurationBuilder.builder()
-                .displayRequestDuration(true)
-                .defaultModelExpandDepth(1)
-                .defaultModelsExpandDepth(1)
-                
-                .supportedSubmitMethods(UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS)
-                .validatorUrl(null)
-                .build();
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return List.of(new SecurityReference("JWT", authorizationScopes));
     }
 }

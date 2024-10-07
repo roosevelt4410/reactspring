@@ -66,7 +66,7 @@ export const useUsers = () => {
 
     const getUsers = useCallback(async () => {
         const result = await findAll();
-        console.log(result);
+       /*  console.log(result); */
         dispatch({
             type: 'loadingUsers',
             payload: result?.data,

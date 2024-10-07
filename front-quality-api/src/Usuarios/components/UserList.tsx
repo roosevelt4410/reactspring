@@ -7,7 +7,7 @@ import { UserRow } from "./UserRow";
 export const UsersList = () => {
     const { users } = useContext(UserContext);
     const { login } = useContext(AuthContext);
-    console.log(login.isAdmin);
+    /* (login.isAdmconsole.login); */
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 mt-8">
