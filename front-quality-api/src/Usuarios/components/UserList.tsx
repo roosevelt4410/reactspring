@@ -7,27 +7,27 @@ import { UserRow } from "./UserRow";
 export const UsersList = () => {
     const { users } = useContext(UserContext);
     const { login } = useContext(AuthContext);
-
+    console.log(login.isAdmin);
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 mt-8">
                 <thead>
                     <tr>
-                        <th className="px-6 py-3 bg-empresa-verde text-left text-xs font-bold text-white uppercase tracking-wider">
+                        <th className="px-6 py-3 bg-empresa-negro text-left text-xs font-bold text-white uppercase tracking-wider">
                             Id
                         </th>
-                        <th className="px-6 py-3 bg-empresa-verde text-left text-xs font-bold text-white uppercase tracking-wider">
+                        <th className="px-6 py-3 bg-empresa-negro text-left text-xs font-bold text-white uppercase tracking-wider">
                             Username
                         </th>
-                        <th className="px-6 py-3 bg-empresa-verde text-left text-xs font-bold text-white uppercase tracking-wider">
+                        <th className="px-6 py-3 bg-empresa-negro text-left text-xs font-bold text-white uppercase tracking-wider">
                             Email
                         </th>
                         {login.isAdmin && (
                             <>
-                                <th className="px-6 py-3 bg-empresa-verde text-right text-xs font-bold text-white uppercase tracking-wider">
+                                <th className="px-6 py-3 bg-empresa-negro text-right text-xs font-bold text-white uppercase tracking-wider">
                                     Editar
                                 </th>
-                                <th className="px-6 py-3 bg-empresa-verde text-right text-xs font-bold text-white uppercase tracking-wider">
+                                <th className="px-6 py-3 bg-empresa-negro text-right text-xs font-bold text-white uppercase tracking-wider">
                                     Eliminar
                                 </th>
                             </>

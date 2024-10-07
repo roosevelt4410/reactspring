@@ -1,0 +1,2246 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "COBIS Loans Additional Data API",
+    "description": "Este es el API del m\u00f3dulo de Operaciones de cartera del Core Banking System. Se encuentran definidos los servicios esenciales para la gesti\u00f3n de datos de adicionales de un pr\u00e9stamo. Puedes conseguir m\u00e1s informaci\u00f3n en nuestro sitio web: [http://www.cobiscorp.com](http://www.cobiscorp.com).",
+    "termsOfService": "http://cobiscorp.com/terms/cobisapi",
+    "contact": {
+      "name": "COBIS Support Center",
+      "url": "http://www.cobiscorp.com/contact-us/customer-technical-support/",
+      "email": "support.center@cobiscorp.com"
+    },
+    "license": {
+      "name": "COBIS API License",
+      "url": "http://www.cobiscorp.com/licenses/LICENSE-1.0.html"
+    },
+    "version": "1.0.6"
+  },
+  "servers": [
+    {
+      "url": "http://loans-api.dev1.product.cobiscloud.com/loans/v1",
+      "description": "Development environment"
+    },
+    {
+      "url": "http://loans-api.qa1.product.cobiscloud.com/loans/v1",
+      "description": "Quality testing environment"
+    },
+    {
+      "url": "http://loans-api.stg1.product.cobiscloud.com/loans/v1",
+      "description": "Staging testing environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "LoansOperations",
+      "description": "Operaciones adicionales de pr\u00e9stamos en el core bancario."
+    }
+  ],
+  "paths": {
+    "/loans/by-loan-number/{loanNumber}/items": {
+      "get": {
+        "tags": [
+          "LoanItems"
+        ],
+        "summary": "Consulta de Datos adicionales de un Prestamo.",
+        "description": "Realiza la consulta de los Datos adicionales de un Prestamo.",
+        "operationId": "LoansItemsGETByNumber",
+        "parameters": [
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "description": "Identificador \u00fanico de la solicitud o petici\u00f3n.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "x-financial-id",
+            "in": "header",
+            "description": "ID del banco o entidad que provee los servicios financieros.",
+            "required": false,
+            "schema": {
+              "maxLength": 30,
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-login",
+            "in": "header",
+            "description": "Login de usuario en la aplicaci\u00f3n de front-end que realiza la petici\u00f3n.",
+            "required": true,
+            "schema": {
+              "maxLength": 30,
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-request-date-time",
+            "in": "header",
+            "description": "Fecha y hora en la que se origin\u00f3 la solicitud o petici\u00f3n por el usuario en la aplicaci\u00f3n de front-end.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-end-user-terminal",
+            "in": "header",
+            "description": "Terminal (IP, n\u00famero de tel\u00e9fono, o identificador del dispositivo) desde el cual se origin\u00f3 la solicitud o petici\u00f3n por el usuario en la aplicaci\u00f3n de front-end.",
+            "required": true,
+            "schema": {
+              "maxLength": 30,
+              "pattern": "^[a-zA-Z0-9_.-.+:\\/]{0,30}$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-last-logged-date-time",
+            "in": "header",
+            "description": "Fecha y hora del \u00faltimo logueo del usuario en la aplicaci\u00f3n.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-jws-signature",
+            "in": "header",
+            "description": "JSON Web Signature (JWS) generado para firmar las peticiones RQ.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-reverse",
+            "in": "header",
+            "description": "Indicador de ejecuci\u00f3n de reverso de una transacci\u00f3n. Valores:['true','false']. Default: 'false' No aplica reverso.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-requestId-to-reverse",
+            "in": "header",
+            "description": "Identificador \u00fanico de la transacci\u00f3n que se requiere reversar. Este campo es requerido en caso de que el campo x-reverse sea 'true'.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "Indica el conjunto de lenguajes de preferencia que soporta el cliente en la respuesta, valor por defecto Espa\u00f1ol Colombia (es-CO). Ver https://tools.ietf.org/html/rfc5646",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-channel",
+            "in": "header",
+            "description": "Identificador num\u00e9rico del canal desde el cual se origina la solicitud.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ChannelCode"
+            }
+          },
+          {
+            "name": "loanNumber",
+            "in": "path",
+            "description": "C\u00f3digo de banco.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/LoanNumber"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informaci\u00f3n de los datos adicionales de un prestamo.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "x-jws-signature": {
+                "$ref": "#/components/headers/x-jws-signature"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoansItemsGETByNumberRs"
+                },
+                "example": {
+                  "loanItems": [
+                    {
+                      "nemonic": "BANCA",
+                      "description": "Banca",
+                      "type": "A",
+                      "value": "Banca 1"
+                    },
+                    {
+                      "nemonic": "CANAL",
+                      "description": "Canal",
+                      "type": "A",
+                      "value": "Canal 1"
+                    }
+                  ],
+                  "links": {
+                    "self": "loans/by-loan-number/010145046/items",
+                    "navs": [
+                      {
+                        "href": "/loans/6",
+                        "rel": "loans",
+                        "type": "GET"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "El mensaje de solicitud no se encuentra debidamente formateado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El mensaje de solicitud no se encuentra debidamente formateado."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No se encuentra autorizado para ejecutar la operaci\u00f3n.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "No se encuentra autorizado para ejecutar la operaci\u00f3n."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La solicitud ha sido denegada.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "La solicitud ha sido denegada."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "El objeto no fue encontrado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El objeto no fue encontrado."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.\n  * 250072: Cliente no existe.\n  * 701000: No existe Tipo de Plazo.\n  * 710072: No est\u00e1 definido el tipo de operaci\u00f3n con esa moneda.\n  * 725010: No existe destino econ\u00f3mico en cat\u00e1logo.\n  * 724621: Valor debe ser mayor a cero.\n  * 77539:  No existe informacion para los criterios consultados\n",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "x-jws-signature": {
+                "$ref": "#/components/headers/x-jws-signature"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDetail"
+                },
+                "example": {
+                  "message": "La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.",
+                  "error": [
+                    {
+                      "code": 77539,
+                      "message": "No existe informacion para los criterios consultados"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Se han realizado demasiadas solicitudes.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Se han realizado demasiadas solicitudes."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Se present\u00f3 un error durante el procesamiento de la solicitud.\n  * 30002: Se ha excedido el tiempo de ejecuci\u00f3n de la operaci\u00f3n. Verificar la operaci\u00f3n antes de reenviar.\n  * 40003: Producto bancario deshabilitado, consulte al Administrador del Sistema.\n  * 80120: Su operaci\u00f3n no pudo ser procesada. Por favor, consulte con el Administrador del sistema.\n  * 80121: Su operaci\u00f3n no pudo ser procesada. Por favor, reintente de nuevo. (la causa es por Clave duplicada.)\n  * 80122: Su operaci\u00f3n no pudo ser procesada. Por favor, reintente de nuevo. (la causa es por Deadlock.)\n  * 80123: Su operaci\u00f3n no pudo ser procesada. Existe un error en la sintanxis.\n",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDetail"
+                },
+                "example": {
+                  "message": "La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.",
+                  "error": [
+                    {
+                      "code": 30002,
+                      "message": "Se ha excedido el tiempo de ejecuci\u00f3n de la operaci\u00f3n. Verificar la operaci\u00f3n antes de reenviar."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "authorizer": []
+          }
+        ],
+        "x-amazon-apigateway-request-validator": "all",
+        "x-amazon-apigateway-integration": {
+          "type": "aws",
+          "httpMethod": "POST",
+          "uri": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Sub": "arn:aws:apigateway:${RegionToDeploy}:lambda:path/2015-03-31/functions/${LoansItemsGETByNumberLambda.Arn}:"
+                },
+                "${stageVariables.version_alias}/invocations"
+              ]
+            ]
+          },
+          "passthroughBehavior": "WHEN_NO_TEMPLATES",
+          "requestTemplates": {
+            "application/json": "{\n  \"header\": {\n    \"aws_request_id\": \"$context.requestId\",\n    \"x_authorization\": \"$input.params().header.get('Authorization')\",\n    \"x_request_id\": \"$input.params().header.get('x-request-id')\",\n    \"x_end_user_login\": \"$input.params().header.get('x-end-user-login')\",\n    \"x_financial_id\": \"$input.params().header.get('x-financial-id')\",\n    \"x_end_user_request_date_time\": \"$input.params().header.get('x-end-user-request-date-time')\",\n    \"x_end_user_last_logged_date_time\": \"$input.params().header.get('x-end-user-last-logged-date-time')\",\n    \"x_end_user_terminal\": \"$input.params().header.get('x-end-user-terminal')\",\n    \"x_reverse\": \"$input.params().header.get('x-reverse')\",\n    \"x_requestId_to_reverse\": \"$input.params().header.get('x-requestId-to-reverse')\",\n    \"Accept_Language\": \"$input.params().header.get('Accept-Language')\",\n    \"x_channel\": \"$input.params().header.get('x-channel')\"\n  },\n  \"body\" : $input.json('$'),\n  \"getbody\": {\n    \"queries\":{\n      #foreach($param in $input.params().querystring.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\"#if($foreach.hasNext),#end\n      #end\n    },\n    \"params\": {\n      #foreach($param in $input.params().path.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\"#if($foreach.hasNext),#end\n      #end\n    }\n  },\n  \"service\": {\n    \"apiId\": \"$context.apiId\",\n    \"operationId\": \"LoansItemsGETByNumber\",\n    \"catalogCode\": \"AS0052\"\n  }\n}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n"
+                }
+              }
+            },
+            "400": {
+              "statusCode": 400,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"El mensaje de solicitud no se encuentra debidamente formateado.\"}\n"
+                }
+              }
+            },
+            "401": {
+              "statusCode": 401,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"No se encuentra autorizado para ejecutar la operaci\u00f3n.\"}\n"
+                }
+              }
+            },
+            "403": {
+              "statusCode": 403,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"La solicitud ha sido denegada.\"}\n"
+                }
+              }
+            },
+            "404": {
+              "statusCode": 404,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"El objeto no fue encontrado.\"}\n"
+                }
+              }
+            },
+            "409": {
+              "statusCode": 409,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n#set($cause = $input.path('$.cause'))\n {\n   \"message\": \"La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.\",\n   \"error\" : $cause.errorMessage\n }\n"
+                }
+              }
+            },
+            "429": {
+              "statusCode": 429,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"Se han realizado demasiadas solicitudes.\"}\n"
+                }
+              }
+            },
+            "500|.*timed.*": {
+              "statusCode": 500,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n#set($cause = $input.path('$.cause'))\n $cause.errorMessage\n"
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "LoanItems"
+        ],
+        "summary": "options LoansItemsGETByNumberOPT.",
+        "description": "options LoansItemsGETByNumberOPT.",
+        "operationId": "LoansItemsGETByNumberOPT",
+        "parameters": [
+          {
+            "name": "loanNumber",
+            "in": "path",
+            "description": "N\u00famero del pr\u00e9stamo.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/LoanNumber"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Security-Policy": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Strict-Transport-Security": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Content-Type-Options": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Accept": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Referrer-Policy": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Permissions-Policy": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-end-user-request-date-time,x-end-user-login,x-financial-id,x-end-user-last-logged-date-time,Accept-Language,x-request-id,x-jws-signature,x-end-user-terminal,x-channel,x-reverse,loanNumber'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n"
+                }
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    },
+    "/loans/items": {
+      "get": {
+        "tags": [
+          "LoanItems"
+        ],
+        "summary": "Consulta Parametria de Datos adicionales.",
+        "description": "Realiza la consulta Parametria de Datos adicionales.",
+        "operationId": "LoansItemsGETByToperation",
+        "parameters": [
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "description": "Identificador \u00fanico de la solicitud o petici\u00f3n.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "x-financial-id",
+            "in": "header",
+            "description": "ID del banco o entidad que provee los servicios financieros.",
+            "required": false,
+            "schema": {
+              "maxLength": 30,
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-login",
+            "in": "header",
+            "description": "Login de usuario en la aplicaci\u00f3n de front-end que realiza la petici\u00f3n.",
+            "required": true,
+            "schema": {
+              "maxLength": 30,
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-request-date-time",
+            "in": "header",
+            "description": "Fecha y hora en la que se origin\u00f3 la solicitud o petici\u00f3n por el usuario en la aplicaci\u00f3n de front-end.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-end-user-terminal",
+            "in": "header",
+            "description": "Terminal (IP, n\u00famero de tel\u00e9fono, o identificador del dispositivo) desde el cual se origin\u00f3 la solicitud o petici\u00f3n por el usuario en la aplicaci\u00f3n de front-end.",
+            "required": true,
+            "schema": {
+              "maxLength": 30,
+              "pattern": "^[a-zA-Z0-9_.-.+:\\/]{0,30}$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-last-logged-date-time",
+            "in": "header",
+            "description": "Fecha y hora del \u00faltimo logueo del usuario en la aplicaci\u00f3n.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-jws-signature",
+            "in": "header",
+            "description": "JSON Web Signature (JWS) generado para firmar las peticiones RQ.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-reverse",
+            "in": "header",
+            "description": "Indicador de ejecuci\u00f3n de reverso de una transacci\u00f3n. Valores:['true','false']. Default: 'false' No aplica reverso.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-requestId-to-reverse",
+            "in": "header",
+            "description": "Identificador \u00fanico de la transacci\u00f3n que se requiere reversar. Este campo es requerido en caso de que el campo x-reverse sea 'true'.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "Indica el conjunto de lenguajes de preferencia que soporta el cliente en la respuesta, valor por defecto Espa\u00f1ol Colombia (es-CO). Ver https://tools.ietf.org/html/rfc5646",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-channel",
+            "in": "header",
+            "description": "Identificador num\u00e9rico del canal desde el cual se origina la solicitud.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ChannelCode"
+            }
+          },
+          {
+            "name": "typeOperation",
+            "in": "query",
+            "description": "C\u00f3digo del Tipo de Operacion",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/TypeOperation"
+            }
+          },
+          {
+            "name": "coin",
+            "in": "query",
+            "description": "Codigo de la Moneda. En caso de ser enviada ser\u00e1 puesto 0.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/Coin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informaci\u00f3n parametria de los datos adicionales.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "x-jws-signature": {
+                "$ref": "#/components/headers/x-jws-signature"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoansItemsGETByToperationRs"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "order": 1,
+                      "name": "Tipo de Terreno",
+                      "type": "A",
+                      "mandatory": "N",
+                      "catalog": "cc_sector"
+                    },
+                    {
+                      "order": 2,
+                      "name": "Tipo de Producto",
+                      "type": "A",
+                      "mandatory": "S",
+                      "catalog": ""
+                    }
+                  ],
+                  "links": {
+                    "self": "/loans/items?typeOperation=CREDIND&coin=0",
+                    "navs": [
+                      {
+                        "href": "/loans/6",
+                        "rel": "loans",
+                        "type": "GET"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "El mensaje de solicitud no se encuentra debidamente formateado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El mensaje de solicitud no se encuentra debidamente formateado."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No se encuentra autorizado para ejecutar la operaci\u00f3n.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "No se encuentra autorizado para ejecutar la operaci\u00f3n."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La solicitud ha sido denegada.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "La solicitud ha sido denegada."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "El objeto no fue encontrado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El objeto no fue encontrado."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.\n  * 250072: Cliente no existe.\n  * 701000: No existe Tipo de Plazo.\n  * 710072: No est\u00e1 definido el tipo de operaci\u00f3n con esa moneda.\n  * 725010: No existe destino econ\u00f3mico en cat\u00e1logo.\n  * 724621: Valor debe ser mayor a cero.\n  * 77539:  No existe informacion para los criterios consultados\n",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "x-jws-signature": {
+                "$ref": "#/components/headers/x-jws-signature"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDetail"
+                },
+                "example": {
+                  "message": "La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.",
+                  "error": [
+                    {
+                      "code": 77539,
+                      "message": "No existe informacion para los criterios consultados"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Se han realizado demasiadas solicitudes.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Se han realizado demasiadas solicitudes."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Se present\u00f3 un error durante el procesamiento de la solicitud.\n  * 30002: Se ha excedido el tiempo de ejecuci\u00f3n de la operaci\u00f3n. Verificar la operaci\u00f3n antes de reenviar.\n  * 40003: Producto bancario deshabilitado, consulte al Administrador del Sistema.\n  * 80120: Su operaci\u00f3n no pudo ser procesada. Por favor, consulte con el Administrador del sistema.\n  * 80121: Su operaci\u00f3n no pudo ser procesada. Por favor, reintente de nuevo. (la causa es por Clave duplicada.)\n  * 80122: Su operaci\u00f3n no pudo ser procesada. Por favor, reintente de nuevo. (la causa es por Deadlock.)\n  * 80123: Su operaci\u00f3n no pudo ser procesada. Existe un error en la sintanxis.\n",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDetail"
+                },
+                "example": {
+                  "message": "La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.",
+                  "error": [
+                    {
+                      "code": 30002,
+                      "message": "Se ha excedido el tiempo de ejecuci\u00f3n de la operaci\u00f3n. Verificar la operaci\u00f3n antes de reenviar."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "authorizer": []
+          }
+        ],
+        "x-amazon-apigateway-request-validator": "all",
+        "x-amazon-apigateway-integration": {
+          "type": "aws",
+          "httpMethod": "POST",
+          "uri": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Sub": "arn:aws:apigateway:${RegionToDeploy}:lambda:path/2015-03-31/functions/${LoansItemsGETByToperationLambda.Arn}:"
+                },
+                "${stageVariables.version_alias}/invocations"
+              ]
+            ]
+          },
+          "passthroughBehavior": "WHEN_NO_TEMPLATES",
+          "requestTemplates": {
+            "application/json": "{\n  \"header\": {\n    \"aws_request_id\": \"$context.requestId\",\n    \"x_authorization\": \"$input.params().header.get('Authorization')\",\n    \"x_request_id\": \"$input.params().header.get('x-request-id')\",\n    \"x_end_user_login\": \"$input.params().header.get('x-end-user-login')\",\n    \"x_financial_id\": \"$input.params().header.get('x-financial-id')\",\n    \"x_end_user_request_date_time\": \"$input.params().header.get('x-end-user-request-date-time')\",\n    \"x_end_user_last_logged_date_time\": \"$input.params().header.get('x-end-user-last-logged-date-time')\",\n    \"x_end_user_terminal\": \"$input.params().header.get('x-end-user-terminal')\",\n    \"x_reverse\": \"$input.params().header.get('x-reverse')\",\n    \"x_requestId_to_reverse\": \"$input.params().header.get('x-requestId-to-reverse')\",\n    \"Accept_Language\": \"$input.params().header.get('Accept-Language')\",\n    \"x_channel\": \"$input.params().header.get('x-channel')\"\n  },\n  \"body\" : $input.json('$'),\n  \"getbody\": {\n    \"queries\":{\n      #foreach($param in $input.params().querystring.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\"#if($foreach.hasNext),#end\n      #end\n    },\n    \"params\": {\n      #foreach($param in $input.params().path.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\"#if($foreach.hasNext),#end\n      #end\n    }\n  },\n  \"service\": {\n    \"apiId\": \"$context.apiId\",\n    \"operationId\": \"LoansItemsGETByToperation\",\n    \"catalogCode\": \"AS0052\"\n  }\n}"
+          },
+          "responses": {
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n"
+                }
+              }
+            },
+            "400": {
+              "statusCode": 400,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"El mensaje de solicitud no se encuentra debidamente formateado.\"}\n"
+                }
+              }
+            },
+            "401": {
+              "statusCode": 401,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"No se encuentra autorizado para ejecutar la operaci\u00f3n.\"}\n"
+                }
+              }
+            },
+            "403": {
+              "statusCode": 403,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"La solicitud ha sido denegada.\"}\n"
+                }
+              }
+            },
+            "404": {
+              "statusCode": 404,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"El objeto no fue encontrado.\"}\n"
+                }
+              }
+            },
+            "409": {
+              "statusCode": 409,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n#set($cause = $input.path('$.cause'))\n {\n   \"message\": \"La operaci\u00f3n present\u00f3 un error durante la ejecuci\u00f3n.\",\n   \"error\" : $cause.errorMessage\n }\n"
+                }
+              }
+            },
+            "429": {
+              "statusCode": 429,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n{\"message\": \"Se han realizado demasiadas solicitudes.\"}\n"
+                }
+              }
+            },
+            "500|.*timed.*": {
+              "statusCode": 500,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n#set($cause = $input.path('$.cause'))\n $cause.errorMessage\n"
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "LoanItems"
+        ],
+        "summary": "options LoansItemsGETByToperationOPT.",
+        "description": "options LoansItemsGETByToperationOPT.",
+        "operationId": "LoansItemsGETByToperationOPT",
+        "parameters": [
+          {
+            "name": "typeOperation",
+            "in": "query",
+            "description": "C\u00f3digo del Tipo de Operacion",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/TypeOperation"
+            }
+          },
+          {
+            "name": "coin",
+            "in": "query",
+            "description": "Codigo de la Moneda. En caso de ser enviada ser\u00e1 puesto 0.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/Coin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Security-Policy": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Strict-Transport-Security": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Content-Type-Options": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Accept": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Referrer-Policy": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Permissions-Policy": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-end-user-request-date-time,x-end-user-login,x-financial-id,x-end-user-last-logged-date-time,Accept-Language,x-request-id,x-jws-signature,x-end-user-terminal,x-channel,x-reverse,loanNumber'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"31536000\"'",
+                "method.response.header.Cache-Control": "'no-store'",
+                "method.response.header.Referrer-Policy": "'no-referrer'",
+                "method.response.header.Permissions-Policy": "'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n  #set($domainsArray = $domains.split(\",\"))\n  #set($origin = $input.params(\"origin\"))\n  #foreach ($regex in $domainsArray)\n    #if($origin.toString().matches($regex))\n      #set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n      #break\n    #end\n  #end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n"
+                }
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-request-validators": {
+    "all": {
+      "validateRequestBody": true,
+      "validateRequestParameters": true
+    },
+    "params-only": {
+      "validateRequestBody": false,
+      "validateRequestParameters": true
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoansItemsGETByNumberRs": {
+        "type": "object",
+        "required": [
+          "loanItems"
+        ],
+        "properties": {
+          "loanItems": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "nemonic": {
+                  "type": "string",
+                  "description": "Nemonico del Campo",
+                  "nullable": true
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Descripcion del campo",
+                  "nullable": true
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Tipo de Dato del Campo",
+                  "nullable": true
+                },
+                "value": {
+                  "type": "string",
+                  "description": "Valor del Campo",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "links": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Links"
+              }
+            ]
+          },
+          "meta": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Meta"
+              }
+            ]
+          }
+        }
+      },
+      "LoansItemsGETByToperationRs": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "order": {
+                  "type": "integer",
+                  "description": "Orden",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Nombre del campo",
+                  "nullable": true
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Tipo de Dato del Campo",
+                  "nullable": true
+                },
+                "mandatory": {
+                  "type": "string",
+                  "description": "S o N para saber si el campo es mandatorio",
+                  "nullable": true
+                },
+                "catalog": {
+                  "type": "string",
+                  "description": "Nombre del catalogo. S\u00ed el campo es un tipo catalogo",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "links": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Links"
+              }
+            ]
+          },
+          "meta": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Meta"
+              }
+            ]
+          }
+        }
+      },
+      "RequestID": {
+        "type": "string",
+        "description": "Identificador \u00fanico de una petici\u00f3n o solicitud.",
+        "format": "uuid"
+      },
+      "ISODateTime": {
+        "type": "string",
+        "description": "Fecha y hora ISO 8601 formato",
+        "format": "date-time"
+      },
+      "ChannelCode": {
+        "type": "number",
+        "description": "'Identificador del canal y c\u00f3digo de oficina separado por \":\" (Solo si aplica la oficina).\n  Ejemplo: 35 o 35:1"
+      },
+      "LoanNumber": {
+        "maxLength": 24,
+        "type": "string",
+        "description": "N\u00famero del pr\u00e9stamo o banco."
+      },
+      "ErrorResponse": {
+        "properties": {
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Descripci\u00f3n del error general."
+          },
+          "error": {
+            "type": "array",
+            "description": "Lista de los errores espec\u00edficos.",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Mensaje de respuesta de error."
+      },
+      "Error": {
+        "properties": {
+          "code": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "C\u00f3digo de error espec\u00edfico."
+          },
+          "id": {
+            "maxLength": 40,
+            "minLength": 1,
+            "type": "string",
+            "description": "Id de referencia \u00fanica para prop\u00f3sitos de auditor\u00eda."
+          },
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Descripci\u00f3n del error espec\u00edfico."
+          },
+          "path": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Al referirse de un error debido a un campo espec\u00edfico, se describe la ruta del campo."
+          },
+          "url": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "URL de la documentaci\u00f3n en donde se encuentra mayor informaci\u00f3n sobre el error."
+          }
+        },
+        "description": "Error espec\u00edfico que describe un problema presentado al ejecutar una operaci\u00f3n."
+      },
+      "ErrorResponseDetail": {
+        "required": [
+          "error",
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Descripci\u00f3n del error general."
+          },
+          "error": {
+            "required": [
+              "code",
+              "message"
+            ],
+            "type": "array",
+            "description": "Lista de los errores espec\u00edficos.",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Mensaje de respuesta de error."
+      },
+      "TypeOperation": {
+        "maxLength": 32,
+        "type": "string",
+        "description": "Codigo del Tipo de Operacion"
+      },
+      "Coin": {
+        "type": "integer",
+        "description": "C\u00f3digo de la Moneda.",
+        "format": "int32"
+      },
+      "LoanItem": {
+        "type": "object",
+        "properties": {
+          "nemonic": {
+            "type": "string",
+            "description": "Nem\u00f3nico del campo."
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripci\u00f3n del campo."
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo de dato del campo."
+          },
+          "value": {
+            "type": "string",
+            "description": "Valor del campo."
+          }
+        },
+        "description": "Datos adicionales del pr\u00e9stamo."
+      },
+      "Links": {
+        "title": "Links",
+        "type": "object",
+        "properties": {
+          "self": {
+            "type": "string",
+            "format": "uri"
+          },
+          "first": {
+            "type": "string",
+            "format": "uri"
+          },
+          "prev": {
+            "type": "string",
+            "format": "uri"
+          },
+          "next": {
+            "type": "string",
+            "format": "uri"
+          },
+          "last": {
+            "type": "string",
+            "format": "uri"
+          },
+          "navs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinkDetail"
+            }
+          }
+        },
+        "description": "Link asociados a la entidad consultada"
+      },
+      "LinkDetail": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "URL",
+            "format": "uri"
+          },
+          "rel": {
+            "type": "string",
+            "description": "Entidad relacionada"
+          },
+          "type": {
+            "type": "string",
+            "description": "Operaci\u00f3n HTTP soportada"
+          }
+        }
+      },
+      "Meta": {
+        "type": "object",
+        "properties": {
+          "TotalPages": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "N\u00famero de p\u00e1ginas que contiene la consulta.",
+            "format": "int32"
+          },
+          "totalResult": {
+            "$ref": "#/components/schemas/TotalResult"
+          },
+          "firstAvailableDateTime": {
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "lastAvailableDateTime": {
+            "$ref": "#/components/schemas/ISODateTime"
+          }
+        }
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "integer",
+            "description": "Valor del campo.",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del campo."
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo de dato del campo."
+          },
+          "mandatory": {
+            "type": "string",
+            "description": "Indica si el campo es mandatorio."
+          },
+          "catalog": {
+            "type": "string",
+            "description": "Nombre del cat\u00e1logo. Si el campo es un tipo cat\u00e1logo."
+          }
+        },
+        "description": "Parametrizaci\u00f3n de datos adicionales del pr\u00e9stamo."
+      },
+      "TotalResult": {
+        "type": "integer",
+        "description": "Cantidad total de registros.",
+        "format": "int32"
+      }
+    },
+    "headers": {
+      "x-correlation-id": {
+        "description": "ID que relaciona la respuesta con la solicitud. El valor de este campo debe coincidir con el valor x-request-id enviado en la solicitud.",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "x-jws-signature": {
+        "description": "JSON Web Signature (JWS) generado para firmar las peticiones RS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Content-Language": {
+        "description": "Indica el conjunto de lenguajes de preferencia que soporta el API en la respuesta, valor por defecto Espa\u00f1ol Colombia (es-CO). Ver https://tools.ietf.org/html/rfc5646",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Origin": {
+        "description": "Header para especificar los origenes permitidos en integraciones CORS.",
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Headers": {
+        "description": "Header para especificar los headers y par\u00e1metros permitidos en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Credentials": {
+        "description": "Header para especificar si se maneja o no credenciales cuando en la cabecera Access-Control-Allow-Origin se define un dominio en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Content-Security-Policy": {
+        "description": "Header para especificar si se maneja o no credenciales cuando en la cabecera Access-Control-Allow-Origin se define un dominio en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Strict-Transport-Security": {
+        "description": "Header para especificar que las invocaciones a la API solo se deben realizar por HTTPS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Content-Type-Options": {
+        "description": "Header que permite evitar el sniffing de tipo MIME diciendo que los tipos MIME son deliberadamente configurados.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Accept": {
+        "description": "Header para especificar que tipo de archivos son permitidos en las peticiones.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Cache-Control": {
+        "description": "Header que contiene las directivas para controlar el almacenamiento en cache.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Referrer-Policy": {
+        "description": "Header que nos permite controlar que informaci\u00f3n se env\u00eda en la cabecera Referer la cu\u00e1l es utilizada por el navegador para indicarle al servidor desde que enlace se ha llegado a la p\u00e1gina.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Permissions-Policy": {
+        "description": "Header que indica al navegador qu\u00e9 permisos pueden solicitar las p\u00e1ginas.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "description": "API Key asignado al cliente para el consumo del API.",
+        "name": "x-api-key",
+        "in": "header"
+      },
+      "authorizer": {
+        "type": "apiKey",
+        "description": "Token JWT para el consumo del API.",
+        "name": "Authorization",
+        "in": "header",
+        "x-amazon-apigateway-authtype": "custom",
+        "x-amazon-apigateway-authorizer": {
+          "type": "token",
+          "identitySource": "v1",
+          "authorizerUri": {
+            "Fn::Sub": "arn:aws:apigateway:${RegionToDeploy}:lambda:path/2015-03-31/functions/arn:aws:lambda:${RegionToDeploy}:${AwsAccountIdToDeploy}:function:${LambdaAuthorizer}:production/invocations"
+          },
+          "authorizerResultTtlInSeconds": 3600,
+          "identityValidationExpression": "^Bearer [-0-9a-zA-z\\.]*$"
+        }
+      }
+    }
+  }
+}

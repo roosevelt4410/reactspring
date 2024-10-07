@@ -82,13 +82,32 @@ export const useAuth = () => {
     };
 
     const handlerLogout = () => {
-        dispatch({
-            type: 'logout',
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "¡No podrás revertir esto!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#B12923', // empresa-rojo
+          cancelButtonColor: '#008C4F', // empresa-verde
+          confirmButtonText: 'Sí, cerrar sesión',
+          cancelButtonText: 'Cancelar'
+        }).then((result:any) => {
+          if (result.isConfirmed) {
+            dispatch({
+              type: 'logout',
+            });
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('login');
+            sessionStorage.clear();
+            Swal.fire(
+              '¡Cerrado!',
+              'Tu sesión ha sido cerrada.',
+              'success'
+            );
+          }
         });
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('login');
-        sessionStorage.clear();
-    };
+      };
+      
 
     return {
         login,

@@ -1,0 +1,1394 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "COBIS Orders Template API",
+    "description" : "Este es el API del sistema de Caja del Core Banking System. Se encuentran definidos los servicios esenciales para gestionar el template de campos para ingreso/egresos de los clientes de una entidad financiera. Puedes conseguir mas información en nuestra sitio web: [http://www.cobiscorp.com](http://www.cobiscorp.com).",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://orders-api.dev1.product.cobiscloud.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : "template/v1"
+      }
+    }
+  } ],
+  "paths" : {
+    "/template/order/update" : {
+      "post" : {
+        "operationId" : "controlTemplateUpdate",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/addelementRQ"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/addelementRQ"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/template/order/code" : {
+      "get" : {
+        "operationId" : "GetControlTemplateByTransaction",
+        "parameters" : [ {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "cashtype",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "code",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/controlRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/template/order/remove" : {
+      "post" : {
+        "operationId" : "controlTemplateRemove",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/removeelementRQ"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/removeelementRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/template/order/add" : {
+      "post" : {
+        "operationId" : "controlTemplateAdd",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/addelementRQ"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/addelementRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "sequential" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "codigo del estado de la transacción"
+          }
+        }
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Al referirse de un error debido a un campo específico, se describe la ruta del campo."
+          },
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9-:./]+$",
+            "type" : "string",
+            "description" : "Código de error específico."
+          },
+          "id" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9-:./]+$",
+            "type" : "string",
+            "description" : "Id de referencia única para propósitos de auditoría."
+          },
+          "message" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Descripción del error específico."
+          },
+          "url" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "URL de la documentación en donde se encuentra mayor información sobre el error."
+          }
+        },
+        "description" : "Error específico que describe un problema presentado al ejecutar una operación."
+      },
+      "control" : {
+        "type" : "object",
+        "properties" : {
+          "retyping" : {
+            "type" : "string",
+            "enum" : [ "S", "N" ]
+          },
+          "isvisible" : {
+            "type" : "string",
+            "enum" : [ "S", "N" ]
+          },
+          "sequential" : {
+            "$ref" : "#/components/schemas/sequential"
+          },
+          "columns" : {
+            "maxLength" : 2,
+            "minLength" : 1,
+            "type" : "string",
+            "default" : "0"
+          },
+          "defaultvalue" : {
+            "type" : "string"
+          },
+          "fieldlabel" : {
+            "minLength" : 3,
+            "type" : "string"
+          },
+          "fieldtype" : {
+            "minLength" : 1,
+            "type" : "string",
+            "enum" : [ "R", "button", "checkbox", "color", "date", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week" ]
+          },
+          "type" : {
+            "minLength" : 6,
+            "type" : "string",
+            "enum" : [ "control" ]
+          },
+          "mandatory" : {
+            "type" : "string",
+            "enum" : [ "S", "N" ]
+          },
+          "enabled" : {
+            "type" : "string",
+            "enum" : [ "S", "N" ]
+          },
+          "catalogue" : {
+            "type" : "string"
+          },
+          "field" : {
+            "maxLength" : 3,
+            "minLength" : 2,
+            "pattern" : "R\\d{1,2}",
+            "type" : "string"
+          },
+          "size" : {
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "datatype" : {
+            "type" : "string",
+            "enum" : [ "TXT", "NUM", "text", "currency", "number", "date", "CUR" ]
+          },
+          "scope" : {
+            "minLength" : 12,
+            "type" : "string"
+          },
+          "minimumlength" : {
+            "maxLength" : 3,
+            "minLength" : 1,
+            "type" : "string",
+            "default" : "1"
+          },
+          "position" : {
+            "maxLength" : 40,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/status"
+          }
+        }
+      },
+      "controlRS" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/element"
+        }
+      },
+      "ErrorResponse" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Descripción del error general."
+          },
+          "error" : {
+            "type" : "array",
+            "description" : "Lista de los errores específicos.",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        },
+        "description" : "Mensaje de respuesta de error."
+      },
+      "addelementRS" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/status"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "cashtype" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "codigo de tipo de orden: ingreso o egreso, manual o automatica",
+            "enum" : [ "ACI", "MCI", "ACO", "MCO", "ECO", "ECI" ]
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "descripción de tipo de orden: ingreso o egreso, manual o automatica",
+            "enum" : [ "Automatic Cash Income", "Manual Cash Income", "Automatic Cash Outcome", "Manual Cash Outcome" ]
+          }
+        }
+      },
+      "removeelementRQ" : {
+        "required" : [ "cashtype", "control", "transaction" ],
+        "type" : "object",
+        "properties" : {
+          "cashtype" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/cashtype"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          },
+          "control" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/control"
+            } ]
+          },
+          "transaction" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/transaction"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "addelementRQ" : {
+        "required" : [ "cashtype", "control", "transaction" ],
+        "type" : "object",
+        "properties" : {
+          "cashtype" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/cashtype"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          },
+          "control" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/control"
+            } ]
+          },
+          "transaction" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/transaction"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "removeelementRS" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/status"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "transaction" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "codigo que identifica al colecto o generador de la orden de ingreso o egreso"
+          },
+          "description" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "descripción dell colecto o generador de la orden de ingreso o egreso"
+          }
+        }
+      },
+      "element" : {
+        "required" : [ "cashtype", "control", "transaction" ],
+        "type" : "object",
+        "properties" : {
+          "cashtype" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/cashtype"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          },
+          "control" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/control"
+            }, {
+              "required" : [ "code", "identification" ],
+              "type" : "object"
+            } ]
+          },
+          "transaction" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/transaction"
+            }, {
+              "required" : [ "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "status" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9-:./]+$",
+            "type" : "string",
+            "description" : "codigo del estado de la transacción",
+            "enum" : [ "V", "N", "R" ]
+          },
+          "description" : {
+            "maxLength" : 50,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "descripcion del estado  transacción",
+            "enum" : [ "VIGENTE", "NO VIGENTE", "ELIMINADO" ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "description": "API Key asignado al cliente para el consumo del API.",
+        "name": "x-api-key",
+        "in": "header"
+      },
+      "authorizer": {
+        "type": "apiKey",
+        "description": "Token JWT para el consumo del API.",
+        "name": "Authorization",
+        "in": "header",
+        "x-amazon-apigateway-authtype": "custom",
+        "x-amazon-apigateway-authorizer": {
+          "type": "token",
+          "identitySource": "v1",
+          "authorizerUri": {
+            "Fn::Sub": "arn:aws:apigateway:${RegionToDeploy}:lambda:path/2015-03-31/functions/arn:aws:lambda:${RegionToDeploy}:${AwsAccountIdToDeploy}:function:${LambdaAuthorizer}:production/invocations"
+          },
+          "authorizerResultTtlInSeconds": 3600,
+          "identityValidationExpression": "^Bearer [-0-9a-zA-z\\.]*$"
+        }
+      }
+    }
+  }
+}

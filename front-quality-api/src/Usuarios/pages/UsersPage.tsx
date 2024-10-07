@@ -30,8 +30,8 @@ export const UsersPage = () => {
         <>
             {visibleForm && <UserModalForm />}
             <div className="container my-4">
-                <h1 className="text-xl text-black text-mono py-4 px-6 rounded-md shadow-xl">
-                    Listado de Usuarios
+            <h1 className="text-lg text-empresa-verde text-mono py-4 px-6 rounded-md shadow-xl font-serif font-extrabold border-b-2 border-empresa-verde text-center">
+      Listado de Usuarios
                 </h1>
 
                 <div className="row">

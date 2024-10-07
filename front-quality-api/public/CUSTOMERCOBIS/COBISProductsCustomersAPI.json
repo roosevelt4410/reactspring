@@ -1,0 +1,1437 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "COBIS Products Customers API",
+    "description": "Este es el API del sistema de clientes del Core Banking System. Se encuentran definidos los servicios esenciales para gestionar la información de los diferentes productos de un cliente. Código de Api: AW002 - COBIS API Clientes. Puedes conseguir mas información en nuestra sitio web: [https://www.cobistopaz.com](https://www.cobistopaz.com).",
+    "termsOfService": "http://cobistopaz.com/terms/cobisapi",
+    "contact": {
+      "name": "COBIS Support Center",
+      "url": "https://www.cobistopaz.com/es/soporte-tecnico",
+      "email": "support.center@cobiscorp.com"
+    },
+    "license": {
+      "name": "COBIS API License",
+      "url": "http://www.cobistopaz.com/licenses/LICENSE-1.0.html"
+    },
+    "version": "1.0.3"
+  },
+  "servers": [
+    {
+      "url": "https://dev.api.customers.product.cobiscloud.com",
+      "description": "URL del ambiente de desarrollo."
+    }
+  ],
+  "tags": [
+    {
+      "name": "Products",
+      "description": "Operaciones de consulta productos de clientes."
+    }
+  ],
+  "paths": {
+    "/customers/{customerId}/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Consulta de productos por el código COBIS del cliente. Código de servicio: AS0436-ConsultaProductosDeCliente",
+        "description": "Realiza la consulta de los productos de un cliente mediante el código COBIS.",
+        "operationId": "CustomersProductsGETAll",
+        "parameters": [
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "description": "Identificador único de la solicitud o petición.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "x-financial-id",
+            "in": "header",
+            "description": "ID del banco o entidad que provee los servicios financieros.",
+            "required": false,
+            "schema": {
+              "maxLength": 30,
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-login",
+            "in": "header",
+            "description": "Login de usuario en la aplicación de front-end que realiza la petición.",
+            "required": true,
+            "schema": {
+              "maxLength": 30,
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-request-date-time",
+            "in": "header",
+            "description": "Fecha y hora en la que se originó la solicitud o petición por el usuario en la aplicación de front-end.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-end-user-terminal",
+            "in": "header",
+            "description": "Terminal (IP, número de teléfono, o identificador del dispositivo) desde el cual se originó la solicitud o petición por el usuario en la aplicación de front-end.",
+            "required": true,
+            "schema": {
+              "maxLength": 30,
+              "pattern": "^[a-zA-Z0-9_.-.+:\\/]{0,30}$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-last-logged-date-time",
+            "in": "header",
+            "description": "Fecha y hora del último logueo del usuario en la aplicación.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-jws-signature",
+            "in": "header",
+            "description": "JSON Web Signature (JWS) generado para firmar las peticiones RQ.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-reverse",
+            "in": "header",
+            "description": "Indicador de ejecución de reverso de una transacción. Valores:['true','false']. Default: 'false' No aplica reverso.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-requestId-to-reverse",
+            "in": "header",
+            "description": "Identificador único de la transacción que se requiere reversar. Este campo es requerido en caso de que el campo x-reverse sea 'true'.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "Indica el conjunto de lenguajes de preferencia que soporta el cliente en la respuesta, valor por defecto Español Colombia (es-CO). Ver https://tools.ietf.org/html/rfc5646",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-channel",
+            "in": "header",
+            "description": "Identificador numérico del canal desde el cual se origina la solicitud.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ChannelCode"
+            }
+          },
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "Código COBIS del cliente.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/CustomerCode"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "Parámetro que permite identificar el codigo del producto.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/ProductCode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Se ha realizado la consulta exitosamente.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "x-jws-signature": {
+                "$ref": "#/components/headers/x-jws-signature"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomersProductsGETALLRs"
+                },
+                "example": {
+                  "customerProducts": [
+                    {
+                      "product": {
+                        "code": 121,
+                        "branch": {
+                          "code": 1
+                        },
+                        "productType": {
+                          "code": 25
+                        },
+                        "currency": {
+                          "code": "1224"
+                        },
+                        "creationDate": "2023-02-15",
+                        "operationDetail": "credito a plazo fijo",
+                        "initialAmount": "200.00",
+                        "term": 5,
+                        "status": "V",
+                        "role": "T"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "El mensaje de solicitud no se encuentra debidamente formateado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El mensaje de solicitud no se encuentra debidamente formateado."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No se encuentra autorizado para ejecutar la operación.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "No se encuentra autorizado para ejecutar la operación."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "La solicitud ha sido denegada.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "La solicitud ha sido denegada."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "El objeto no fue encontrado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El objeto no fue encontrado."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "La operación presentó un error durante la ejecución.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "La operación presentó un error durante la ejecución."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Se han realizado demasiadas solicitudes.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Se han realizado demasiadas solicitudes."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Se presentó un error durante el procesamiento de la solicitud.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Cache-Control": {
+                "$ref": "#/components/headers/Cache-Control"
+              },
+              "Referrer-Policy": {
+                "$ref": "#/components/headers/Referrer-Policy"
+              },
+              "Permissions-Policy": {
+                "$ref": "#/components/headers/Permissions-Policy"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Se presentó un error durante el procesamiento de la solicitud."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "authorizer": []
+          }
+        ],
+        "x-amazon-apigateway-request-validator": "all",
+        "x-amazon-apigateway-integration": {
+          "type": "aws",
+          "httpMethod": "POST",
+          "uri": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Sub": "arn:aws:apigateway:${RegionToDeploy}:lambda:path/2015-03-31/functions/${CustomersProductsGETAllLambda.Arn}:"
+                },
+                "${stageVariables.version_alias}/invocations"
+              ]
+            ]
+          },
+          "passthroughBehavior": "WHEN_NO_TEMPLATES",
+          "requestTemplates": {
+            "application/json": "{\n  \"header\": {\n    \"aws_request_id\": \"$context.requestId\",\n    \"x_authorization\": \"$input.params().header.get('Authorization')\",\n    \"x_request_id\": \"$input.params().header.get('x-request-id')\",\n    \"x_end_user_login\": \"$input.params().header.get('x-end-user-login')\",\n    \"x_financial_id\": \"$input.params().header.get('x-financial-id')\",\n    \"x_end_user_request_date_time\": \"$input.params().header.get('x-end-user-request-date-time')\",\n    \"x_end_user_last_logged_date_time\": \"$input.params().header.get('x-end-user-last-logged-date-time')\",\n    \"x_end_user_terminal\": \"$input.params().header.get('x-end-user-terminal')\",\n    \"x_reverse\": \"$input.params().header.get('x-reverse')\",\n    \"x_requestId_to_reverse\": \"$input.params().header.get('x-requestId-to-reverse')\",\n    \"x_channel\": \"$input.params().header.get('x-channel')\"\n  },\n  \"body\" : $input.json('$'),\n  \"getbody\": {\n    \"queries\":{\n      #foreach($param in $input.params().querystring.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\"#if($foreach.hasNext),#end\n      #end\n    },\n    \"params\": {\n      #foreach($param in $input.params().path.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\"#if($foreach.hasNext),#end\n      #end\n    }\n  },\n  \"service\": {\n    \"apiId\": \"$context.apiId\",\n    \"operationId\": \"CustomersProductsGETALL\",\n    \"catalogCode\": \"AS0001\",\n    \"successfulStatusCode\": \"200\"\n  }\n}"
+          },
+          "responses": {
+            "400": {
+              "statusCode": 400,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n{\"message\": \"El mensaje de solicitud no se encuentra debidamente formateado.\"}\n"
+                }
+              }
+            },
+            "401": {
+              "statusCode": 401,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n{\"message\": \"No se encuentra autorizado para ejecutar la operación.\"}\n"
+                }
+              }
+            },
+            "403": {
+              "statusCode": 403,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n{\"message\": \"La solicitud ha sido denegada.\"}\n"
+                }
+              }
+            },
+            "404": {
+              "statusCode": 404,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n{\"message\": \"El objeto no fue encontrado.\"}\n"
+                }
+              }
+            },
+            "409": {
+              "statusCode": 409,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n##Definición de variables de entrada\n#set($cause = $input.path('$.cause'))\n{\n    \"message\": \"La operación presentó un error durante la ejecución.\",\n    \"error\" : $cause.errorMessage\n}\n"
+                }
+              }
+            },
+            "429": {
+              "statusCode": 429,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n{\"message\": \"Se han realizado demasiadas solicitudes.\"}\n"
+                }
+              }
+            },
+            "default": {
+              "statusCode": 200,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($res = $input.path('$'))\n$input.json('$.body')\n"
+                }
+              }
+            },
+            "500|.*timed.*": {
+              "statusCode": 500,
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'*'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.X-Content-Type-Options": "'nosniff'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": "#set($cause = $input.path('$.cause'))\n{\n  \"message\": \"La operación presentó un error durante la ejecución.\",\n  \"error\" : $cause.errorMessage\n}"
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Consulta direcciones asociadas a un cliente o prospecto.",
+        "description": "Realiza la consulta de las direcciones asociadas al cliente o prospecto por el código COBIS del cliente.",
+        "operationId": "CustomersProductsGETAllOPT",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "description": "Código COBIS del cliente.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/CustomerCode"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "Parámetro que permite identificar el codigo del producto.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/ProductCode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Security-Policy": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Strict-Transport-Security": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Content-Type-Options": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Accept": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-end-user-request-date-time,x-end-user-login,x-financial-id,x-end-user-last-logged-date-time,Accept-Language,x-request-id,x-jws-signature,x-end-user-terminal,x-channel,x-reverse,customerId'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"; upgrade-insecure-requests; frame-ancestors \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains.equals(\"*,\"))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($requestDomain = $input.params(\"referer\").replaceFirst(\"/$\", \"\"))\n#if($requestDomain.equals(\"\"))\n#set($requestDomain = $input.params(\"origin\"))\n#end\n#if($domainsArray.contains($requestDomain))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$requestDomain\")\n#end\n#end\n"
+                }
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomersProductsGETALLRs": {
+        "required": [
+          "products"
+        ],
+        "type": "object",
+        "properties": {
+          "products": {
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "required": [
+                "branch",
+                "code",
+                "creationDate",
+                "currency",
+                "operationNumber",
+                "productType",
+                "role",
+                "subProductType"
+              ],
+              "properties": {
+                "branch": {
+                  "required": [
+                    "code"
+                  ],
+                  "properties": {
+                    "code": {
+                      "$ref": "#/components/schemas/BranchCode"
+                    }
+                  },
+                  "description": "Oficina."
+                },
+                "productType": {
+                  "required": [
+                    "code"
+                  ],
+                  "properties": {
+                    "code": {
+                      "$ref": "#/components/schemas/ProductCode"
+                    }
+                  },
+                  "description": "Tipo de producto."
+                },
+                "currency": {
+                  "required": [
+                    "code"
+                  ],
+                  "properties": {
+                    "code": {
+                      "maxLength": 10,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Código del tipo de contacto. Ver listado en: [http://www.cobistopaz.com/api/catalogo#cl_moneda](http://www.cobistopaz.com/api/catalogo#cl_moneda)."
+                    }
+                  },
+                  "description": "Moneda."
+                },
+                "operationDetail": {
+                  "maxLength": 64,
+                  "type": "string",
+                  "description": "Comentario del producto COBIS. De ser un producto no COBIS puede contener el tipo de operación del producto.",
+                  "nullable": true
+                },
+                "initialAmount": {
+                  "$ref": "#/components/schemas/Amount"
+                },
+                "term": {
+                  "minimum": 1,
+                  "type": "integer",
+                  "description": "Plazo inicial con el que se creó el producto.",
+                  "format": "int32",
+                  "nullable": true
+                },
+                "subProductType": {
+                  "required": [
+                    "code"
+                  ],
+                  "properties": {
+                    "code": {
+                      "maxLength": 10,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Código del subproducto. Ver listado en: [http://www.cobistopaz.com/api/catalogo](http://www.cobistopaz.com/api/catalogo)."
+                    },
+                    "description": {
+                      "$ref": "#/components/schemas/CatalogDescription"
+                    }
+                  },
+                  "description": "Tipo de Subproducto"
+                },
+                "encryptCardcode": {
+                  "maxLength": 60,
+                  "type": "string",
+                  "description": "Código de encriptación de la tarjeta de crédito.",
+                  "nullable": true
+                },
+                "code": {
+                  "minimum": 1,
+                  "type": "integer",
+                  "description": "Código secuencial del registro.",
+                  "format": "int32"
+                },
+                "creationDate": {
+                  "type": "string",
+                  "description": "Fecha de creación del producto.",
+                  "format": "date"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "'Estado del producto:'\n  * V: VIGENTE\n  * C: CANCELADO\n  * E: ELIMINADO\n",
+                  "enum": [
+                    "V",
+                    "C",
+                    "E"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "description": "'Rol del cliente en el producto:' * C: CODEUDOR * O: COTITULAR * D: DEUDOR * F: FIRMANTE * S: SOCIO * T: TITULAR * A: APODERADO * I: ADICIONAL\n",
+                  "enum": [
+                    "C",
+                    "O",
+                    "D",
+                    "F",
+                    "S",
+                    "T",
+                    "A",
+                    "I"
+                  ]
+                },
+                "operationNumber": {
+                  "maxLength": 24,
+                  "type": "string",
+                  "description": "Número de operación."
+                }
+              },
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Product"
+                }
+              ]
+            }
+          },
+          "Links": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Links"
+              }
+            ]
+          }
+        },
+        "description": "Respuesta de consulta de productos de un cliente por código COBIS."
+      },
+      "RequestID": {
+        "type": "string",
+        "description": "Identificador único de una petición o solicitud.",
+        "format": "uuid"
+      },
+      "ISODateTime": {
+        "type": "string",
+        "description": "Fecha y hora ISO 8601 formato",
+        "format": "date-time"
+      },
+      "ChannelCode": {
+        "type": "string",
+        "description": "'Identificador del canal y código de oficina separado por \":\" (Solo si aplica la oficina).\n  Ejemplo: 35 o 35:1"
+      },
+      "CustomerCode": {
+        "minimum": 1,
+        "type": "integer",
+        "description": "Código del cliente o prospecto.",
+        "format": "int32"
+      },
+      "ProductCode": {
+        "maximum": 255,
+        "minimum": 1,
+        "type": "integer",
+        "description": "Código del tipo de producto."
+      },
+      "ErrorResponse": {
+        "properties": {
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Descripción del error general."
+          },
+          "error": {
+            "type": "array",
+            "description": "Lista de los errores específicos.",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Mensaje de respuesta de error."
+      },
+      "Error": {
+        "properties": {
+          "code": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "Código de error específico."
+          },
+          "id": {
+            "maxLength": 40,
+            "minLength": 1,
+            "type": "string",
+            "description": "Id de referencia única para propósitos de auditoría."
+          },
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Descripción del error específico."
+          },
+          "path": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Al referirse de un error debido a un campo específico, se describe la ruta del campo."
+          },
+          "url": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "URL de la documentación en donde se encuentra mayor información sobre el error."
+          }
+        },
+        "description": "Error específico que describe un problema presentado al ejecutar una operación."
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "minimum": 1,
+            "type": "integer",
+            "description": "Código secuencial del registro.",
+            "format": "int32"
+          },
+          "branch": {
+            "description": "Oficina.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Branch"
+              }
+            ]
+          },
+          "productType": {
+            "$ref": "#/components/schemas/ProductType"
+          },
+          "currency": {
+            "description": "Moneda.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyType"
+              }
+            ]
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "Fecha de creación del producto.",
+            "format": "date"
+          },
+          "operationDetail": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Comentario del producto COBIS. De ser un producto no COBIS puede contener el tipo de operación del producto."
+          },
+          "initialAmount": {
+            "description": "Monto inicial con el que se creó el producto para los productos COBIS.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Amount"
+              }
+            ]
+          },
+          "term": {
+            "minimum": 1,
+            "type": "integer",
+            "description": "Plazo inicial con el que se creó el producto.",
+            "format": "int32"
+          },
+          "operationNumber": {
+            "maxLength": 24,
+            "type": "string",
+            "description": "Número de operación."
+          },
+          "status": {
+            "type": "string",
+            "description": "'Estado del producto:' * V: VIGENTE * C: CANCELADO * E: ELIMINADO\n",
+            "enum": [
+              "V",
+              "C",
+              "E"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "description": "'Rol del cliente en el producto:' * C: CODEUDOR * O: COTITULAR * D: DEUDOR * F: FIRMANTE * S: SOCIO * T: TITULAR * A: APODERADO * I: ADICIONAL\n",
+            "enum": [
+              "C",
+              "O",
+              "D",
+              "F",
+              "S",
+              "T",
+              "A",
+              "I"
+            ]
+          },
+          "subProductType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubProductType"
+              }
+            ]
+          },
+          "encryptCardcode": {
+            "maxLength": 60,
+            "type": "string",
+            "description": "Código de encriptación de la tarjeta de crédito."
+          }
+        },
+        "description": "Producto del cliente."
+      },
+      "CurrencyType": {
+        "properties": {
+          "code": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "description": "Código del tipo de contacto. Ver listado en: [http://www.cobistopaz.com/api/catalogo#cl_moneda](http://www.cobistopaz.com/api/catalogo#cl_moneda)."
+          },
+          "description": {
+            "$ref": "#/components/schemas/CatalogDescription"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CatalogStatus"
+          }
+        },
+        "description": "Tipo de moneda con la que se realizaba el pago en el empleo."
+      },
+      "SubProductType": {
+        "properties": {
+          "code": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "description": "Código del subproducto. Ver listado en: [http://www.cobistopaz.com/api/catalogo](http://www.cobistopaz.com/api/catalogo)."
+          },
+          "description": {
+            "$ref": "#/components/schemas/CatalogDescription"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CatalogStatus"
+          }
+        },
+        "description": "Tipo de Subproducto"
+      },
+      "BranchCode": {
+        "maximum": 32767,
+        "minimum": 1,
+        "type": "integer",
+        "description": "Código interno de la cuenta"
+      },
+      "Amount": {
+        "pattern": "^-?\\d{1,14}\\.\\d{1,2}$",
+        "type": "string",
+        "description": "Valor monetario"
+      },
+      "CatalogDescription": {
+        "maxLength": 64,
+        "minLength": 1,
+        "type": "string",
+        "description": "Descripción de un elemento de un catálogo."
+      },
+      "Links": {
+        "title": "Links",
+        "type": "object",
+        "properties": {
+          "self": {
+            "type": "string",
+            "format": "uri"
+          },
+          "first": {
+            "type": "string",
+            "format": "uri"
+          },
+          "prev": {
+            "type": "string",
+            "format": "uri"
+          },
+          "next": {
+            "type": "string",
+            "format": "uri"
+          },
+          "last": {
+            "type": "string",
+            "format": "uri"
+          },
+          "navs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LinkDetail"
+            }
+          }
+        },
+        "description": "Link asociados a la entidad consultada"
+      },
+      "LinkDetail": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "URL",
+            "format": "uri"
+          },
+          "rel": {
+            "type": "string",
+            "description": "Entidad relacionada"
+          },
+          "type": {
+            "type": "string",
+            "description": "Operación HTTP soportada"
+          }
+        }
+      },
+      "Branch": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/BranchCode"
+          },
+          "name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string",
+            "description": "Nombre de oficina."
+          }
+        },
+        "description": "Oficina."
+      },
+      "ProductType": {
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ProductCode"
+          },
+          "name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string",
+            "description": "Nombre del tipo de producto."
+          },
+          "abbreviation": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "description": "Nombre del tipo de producto."
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "Fecha de creación del tipo de producto.",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProductTypeStatus"
+          }
+        },
+        "description": "Tipo de producto."
+      },
+      "CatalogStatus": {
+        "maxLength": 1,
+        "minLength": 1,
+        "type": "string",
+        "description": "Estado de un elemento de un catálogo."
+      },
+      "ProductTypeStatus": {
+        "properties": {
+          "code": {
+            "maxLength": 10,
+            "minLength": 1,
+            "type": "string",
+            "description": "Código del estado del producto. Ver listado en: [http://www.cobistopaz.com/api/catalogo#cl_tproducto ](http://www.cobistopaz.com/api/catalogo#cl_tproducto )."
+          },
+          "description": {
+            "$ref": "#/components/schemas/CatalogDescription"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CatalogStatus"
+          }
+        },
+        "description": "Estado de un producto."
+      }
+    },
+    "headers": {
+      "x-correlation-id": {
+        "description": "ID que relaciona la respuesta con la solicitud. El valor de este campo debe coincidir con el valor x-request-id enviado en la solicitud.",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "x-jws-signature": {
+        "description": "JSON Web Signature (JWS) generado para firmar las peticiones RS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Content-Language": {
+        "description": "Indica el conjunto de lenguajes de preferencia que soporta el API en la respuesta, valor por defecto Español Colombia (es-CO). Ver https://tools.ietf.org/html/rfc5646",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Origin": {
+        "description": "Header para especificar los origenes permitidos en integraciones CORS.",
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Headers": {
+        "description": "Header para especificar los headers y parámetros permitidos en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Credentials": {
+        "description": "Header para especificar si se maneja o no credenciales cuando en la cabecera Access-Control-Allow-Origin se define un dominio en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Content-Security-Policy": {
+        "description": "Header para especificar si se maneja o no credenciales cuando en la cabecera Access-Control-Allow-Origin se define un dominio en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Strict-Transport-Security": {
+        "description": "Header para especificar que las invocaciones a la API solo se deben realizar por HTTPS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Content-Type-Options": {
+        "description": "Header que permite evitar el sniffing de tipo MIME diciendo que los tipos MIME son deliberadamente configurados.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Accept": {
+        "description": "Header para especificar que tipo de archivos son permitidos en las peticiones.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "description": "API Key asignado al cliente para el consumo del API.",
+        "name": "x-api-key",
+        "in": "header"
+      },
+      "authorizer": {
+        "type": "apiKey",
+        "description": "Token JWT para el consumo del API.",
+        "name": "Authorization",
+        "in": "header",
+        "x-amazon-apigateway-authtype": "custom",
+        "x-amazon-apigateway-authorizer": {
+          "type": "token",
+          "identitySource": "v1",
+          "authorizerUri": {
+            "Fn::Sub": "arn:aws:apigateway:${RegionToDeploy}:lambda:path/2015-03-31/functions/arn:aws:lambda:${RegionToDeploy}:${AwsAccountIdToDeploy}:function:${LambdaAuthorizer}:production/invocations"
+          },
+          "authorizerResultTtlInSeconds": 3600,
+          "identityValidationExpression": "^Bearer [-0-9a-zA-z\\.]*$"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-request-validators": {
+    "all": {
+      "validateRequestBody": true,
+      "validateRequestParameters": true
+    },
+    "params-only": {
+      "validateRequestBody": false,
+      "validateRequestParameters": true
+    }
+  }
+}

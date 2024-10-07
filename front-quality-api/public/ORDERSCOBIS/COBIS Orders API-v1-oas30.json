@@ -1,0 +1,3611 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "COBIS Orders API",
+    "description" : "Este es el API del sistema en el que se encuentran definidos los servicios esenciales para gestionar ingresos o no Cobis de los clientes de una entidad financiera. Puedes conseguir mas información en nuestra sitio web: [http://www.cobiscorp.com](http://www.cobiscorp.com).",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://orders-api.dev1.product.cobiscloud.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : "orders/v1"
+      }
+    }
+  } ],
+  "paths" : {
+    "/cashOut/reverse" : {
+      "post" : {
+        "operationId" : "cashOutreverse",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashOutreverseRq"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashOutreverseRs"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashOut/Code" : {
+      "get" : {
+        "operationId" : "GetcashOutCode",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "code",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashOutCodeRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashIn/approval" : {
+      "post" : {
+        "operationId" : "cashInapproval",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashInapprovalRq"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashInapprovalRs"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashOut/by-identification" : {
+      "post" : {
+        "operationId" : "cashOutby-identification",
+        "parameters" : [ {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "rowcount",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashOutbyidentificationRQ"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashOutbyidentificationRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashOut/add" : {
+      "post" : {
+        "operationId" : "addcashOut",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "ordertype",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashOutAddRq"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashOutAddRs"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashIn/Code" : {
+      "get" : {
+        "operationId" : "GetcashInCode",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "code",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashInCodeRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashIn/by-identification" : {
+      "post" : {
+        "operationId" : "cashInby-identification",
+        "parameters" : [ {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "rowcount",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashInbyidentificationRQ"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashInbyidentificationRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashOut/approval" : {
+      "post" : {
+        "operationId" : "cashOutapproval",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "exceptcheckvalidation",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashOutapprovalRq"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashOutapprovalRs"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashIn/reverse" : {
+      "post" : {
+        "operationId" : "cashInreverse",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashInreverseRq"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashInreverseRs"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashIn/by_identification_external" : {
+      "post" : {
+        "operationId" : "cashInby-identification-external",
+        "parameters" : [ {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "rowcount",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashInbyidentificationRQ"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashInbyidentificationRS"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/cashIn/add" : {
+      "post" : {
+        "operationId" : "addcashIn",
+        "parameters" : [ {
+          "name" : "x-end-user-terminal",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-channel",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-request-date-time",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-login",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-financial-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "ordertype",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-end-user-last-logged-date-time",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Accept-Language",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-request-id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-jws-signature",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-requestId-to-reverse",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/cashInAddRq"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "x-jws-signature" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Strict-Transport-Security" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Credentials" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Content-Security-Policy" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/cashInAddRs"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "401 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "500 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "403 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "429 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "409 response",
+            "headers" : {
+              "x-correlation-id" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "authorizer" : [ ]
+        }, {
+          "api_key" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "lastName" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string",
+        "description" : "apeliido del cliente"
+      },
+      "cashOutreverseRs" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/status"
+          }
+        }
+      },
+      "cashOutbyidentificationRQ" : {
+        "required" : [ "customer" ],
+        "type" : "object",
+        "properties" : {
+          "customer" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/customer"
+            }, {
+              "required" : [ "code", "identification" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "Check" : {
+        "required" : [ "amount", "type" ],
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/CheckType"
+          }
+        }
+      },
+      "cashOutreverseRq" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "clerk", "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "Update" : {
+        "type" : "object",
+        "properties" : {
+          "clerk" : {
+            "$ref" : "#/components/schemas/clerk"
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "Fecha en que realizo modificacion de operacion",
+            "format" : "date"
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "checkcontrol" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "codigo de la oficina que genera la transaccion"
+          },
+          "Checks" : {
+            "maxItems" : 3,
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Check"
+            }
+          },
+          "branch" : {
+            "$ref" : "#/components/schemas/branch"
+          }
+        }
+      },
+      "branch" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "codigo de la oficina que genera la transaccion"
+          },
+          "name" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "nombre de la oficina"
+          }
+        }
+      },
+      "identification" : {
+        "required" : [ "number", "type" ],
+        "type" : "object",
+        "properties" : {
+          "number" : {
+            "maxLength" : 30,
+            "minLength" : 5,
+            "pattern" : "^[a-zA-Z0-9,._\\-:]+$",
+            "type" : "string",
+            "description" : "Número de identificación de una persona"
+          },
+          "type" : {
+            "required" : [ "code" ],
+            "type" : "object",
+            "properties" : {
+              "code" : {
+                "maxLength" : 10,
+                "minLength" : 1,
+                "type" : "string",
+                "description" : "Tipo de identificación de una persona"
+              },
+              "description" : {
+                "maxLength" : 128,
+                "minLength" : 1,
+                "type" : "string",
+                "description" : "Codigo de tipo de identificación"
+              }
+            }
+          }
+        },
+        "description" : "Identificación de un cliente."
+      },
+      "currency" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "código de moneda"
+          },
+          "name" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Descripción de la moneda"
+          }
+        }
+      },
+      "creation" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "Fecha en que se realiza la operacion",
+            "format" : "date"
+          },
+          "clerk" : {
+            "$ref" : "#/components/schemas/clerk"
+          }
+        }
+      },
+      "order" : {
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "code" : {
+            "maxLength" : 16,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "object",
+            "description" : "Secuencia que identifica la orden"
+          },
+          "Check" : {
+            "required" : [ "account", "amount" ],
+            "type" : "object",
+            "properties" : {
+              "amount" : {
+                "$ref" : "#/components/schemas/amount"
+              },
+              "account" : {
+                "$ref" : "#/components/schemas/AccountNumber"
+              }
+            }
+          },
+          "TotalAmount" : {
+            "$ref" : "#/components/schemas/amount"
+          },
+          "reverse" : {
+            "$ref" : "#/components/schemas/reverse"
+          },
+          "transactionDate" : {
+            "$ref" : "#/components/schemas/transactionDate"
+          },
+          "Update" : {
+            "$ref" : "#/components/schemas/Update"
+          },
+          "creationDate" : {
+            "$ref" : "#/components/schemas/creation"
+          },
+          "clerk" : {
+            "$ref" : "#/components/schemas/clerk"
+          },
+          "system" : {
+            "$ref" : "#/components/schemas/system"
+          },
+          "identification" : {
+            "$ref" : "#/components/schemas/identification"
+          },
+          "additionalCosts" : {
+            "$ref" : "#/components/schemas/additionalCosts"
+          },
+          "Checks" : {
+            "maxItems" : 3,
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Check"
+            }
+          },
+          "currency" : {
+            "$ref" : "#/components/schemas/currency"
+          },
+          "additionalData" : {
+            "type" : "object",
+            "properties" : {
+              "fieldAdditional" : {
+                "maxLength" : 500,
+                "minLength" : 1,
+                "type" : "string",
+                "description" : "directiva o mensaje adicional"
+              },
+              "fieldNumber" : {
+                "type" : "number",
+                "description" : "campo adicional para valor numerico/cheque"
+              },
+              "fieldReference" : {
+                "maxLength" : 128,
+                "minLength" : 1,
+                "type" : "string",
+                "description" : "campo adicional de referencia"
+              },
+              "fieldText" : {
+                "maxLength" : 500,
+                "minLength" : 1,
+                "type" : "string",
+                "description" : "campo adicional descripcion"
+              }
+            }
+          },
+          "transaction" : {
+            "$ref" : "#/components/schemas/transaction"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/status"
+          },
+          "customer" : {
+            "$ref" : "#/components/schemas/customer"
+          }
+        }
+      },
+      "cashInapprovalRq" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "Update", "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "amount" : {
+        "pattern" : "^\\d{1,13}\\.\\d{1,2}$",
+        "type" : "string",
+        "description" : "Valor total de la operacion"
+      },
+      "cashInapprovalRs" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/status"
+          }
+        }
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Al referirse de un error debido a un campo específico, se describe la ruta del campo."
+          },
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "Código de error específico."
+          },
+          "id" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "Id de referencia única para propósitos de auditoría."
+          },
+          "message" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Descripción del error específico."
+          },
+          "url" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "URL de la documentación en donde se encuentra mayor información sobre el error."
+          }
+        },
+        "description" : "Error específico que describe un problema presentado al ejecutar una operación."
+      },
+      "cashInbyidentificationRQ" : {
+        "required" : [ "customer" ],
+        "type" : "object",
+        "properties" : {
+          "customer" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/customer"
+            }, {
+              "required" : [ "identification" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "reverse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "description" : "Fecha en que se realiza la operacion",
+            "format" : "date"
+          }
+        }
+      },
+      "transactionDate" : {
+        "type" : "string",
+        "description" : "Fecha en que se realiza la operacion",
+        "format" : "date"
+      },
+      "cashInCodeRS" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "$ref" : "#/components/schemas/order"
+          }
+        }
+      },
+      "cashInbyidentificationRS" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/order"
+        }
+      },
+      "cashOutCodeRS" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "$ref" : "#/components/schemas/order"
+          }
+        }
+      },
+      "ErrorResponse" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Descripción del error general."
+          },
+          "error" : {
+            "type" : "array",
+            "description" : "Lista de los errores específicos.",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        },
+        "description" : "Mensaje de respuesta de error."
+      },
+      "AccountNumber" : {
+        "maxLength" : 50,
+        "minLength" : 5,
+        "type" : "string"
+      },
+      "clerk" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9-:./]+$",
+            "type" : "string",
+            "description" : "Codigo que identifica al funcionario"
+          },
+          "role" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "nombre del rol del funcionario que aplica la operacion"
+          },
+          "name" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "usuario o nombre del funcionario"
+          }
+        }
+      },
+      "cashInAddRs" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "code", "status" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "cashInAddRq" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "code", "customer - amount - TotalAmount - system", "status", "transaction" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "system" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 36,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9-:./]+$",
+            "type" : "string",
+            "description" : "codigo del sistema originador de la  orden"
+          },
+          "name" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "nombre general del sistema originador  de la orden"
+          }
+        }
+      },
+      "additionalCosts" : {
+        "type" : "object",
+        "properties" : {
+          "concept" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "concepto del costo adicional"
+          },
+          "amountOfTax" : {
+            "minLength" : 1,
+            "pattern" : "^\\d{1,13}\\.\\d{1,2}$",
+            "type" : "string",
+            "description" : "Valor impuesto"
+          },
+          "amountOfTransaction" : {
+            "minLength" : 1,
+            "pattern" : "^\\d{1,13}\\.\\d{1,2}$",
+            "type" : "string",
+            "description" : "Impuesto al Valor Agregado u otro valor sucedaneo"
+          },
+          "amountOfCommission" : {
+            "minLength" : 1,
+            "pattern" : "^\\d{1,13}\\.\\d{1,2}$",
+            "type" : "string",
+            "description" : "Valor comision"
+          },
+          "amountOfFee" : {
+            "minLength" : 1,
+            "pattern" : "^\\d{1,13}\\.\\d{1,2}$",
+            "type" : "string",
+            "description" : "Valor costo"
+          }
+        }
+      },
+      "otherLastName" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string",
+        "description" : "Segundo apellido"
+      },
+      "cashOutAddRq" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "code", "customer - amount - TotalAmount - system", "status", "transaction" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "CheckType" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 10,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "Código de la clase de cheque. Ver listado en: [http://www.cobiscorp.com/api/catalogo#cc_clase_np](http://www.cobiscorp.com/api/catalogo#cc_clase_np).",
+            "enum" : [ "CHLO", "CHOT", "CHPR" ]
+          },
+          "description" : {
+            "maxLength" : 125,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "tipo de cheque"
+          }
+        }
+      },
+      "cashOutAddRs" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "code", "status" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "name" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string",
+        "description" : "nombre de cliente"
+      },
+      "cashOutapprovalRs" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/status"
+          }
+        }
+      },
+      "cashOutbyidentificationRS" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/order"
+        }
+      },
+      "otherName" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string",
+        "description" : "Segundo nombre"
+      },
+      "cashOutapprovalRq" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "clerk", "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "cashInreverseRq" : {
+        "required" : [ "order" ],
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/order"
+            }, {
+              "required" : [ "clerk", "code" ],
+              "type" : "object"
+            } ]
+          }
+        }
+      },
+      "cashInreverseRs" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/status"
+          }
+        }
+      },
+      "transaction" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 4,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "codigo de tipo de transaccion"
+          },
+          "description" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "codigo de tipo de transaccion"
+          }
+        }
+      },
+      "customer" : {
+        "properties" : {
+          "lastName" : {
+            "$ref" : "#/components/schemas/lastName"
+          },
+          "code" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "pattern" : "^[0-9]+$",
+            "type" : "string",
+            "description" : "Código del cliente o prospecto"
+          },
+          "identification" : {
+            "$ref" : "#/components/schemas/identification"
+          },
+          "otherLastName" : {
+            "$ref" : "#/components/schemas/otherLastName"
+          },
+          "name" : {
+            "$ref" : "#/components/schemas/name"
+          },
+          "otherName" : {
+            "$ref" : "#/components/schemas/otherName"
+          },
+          "fullname" : {
+            "$ref" : "#/components/schemas/name"
+          }
+        },
+        "anyOf" : [ {
+          "required" : [ "identification", "lastName", "name" ],
+          "type" : "object"
+        }, {
+          "required" : [ "fullname", "identification" ],
+          "type" : "object"
+        } ]
+      },
+      "status" : {
+        "required" : [ "code" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maxLength" : 16,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "codigo del estado de la transacción",
+            "enum" : [ "P", "R", "A", "E", "X", "C", "B", "U", "Z", "F", "H" ]
+          },
+          "description" : {
+            "maxLength" : 50,
+            "minLength" : 1,
+            "type" : "string",
+            "description" : "descripcion del estado  transacción",
+            "enum" : [ "PENDING", "REVERSED", "APPLIED" ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "description": "API Key asignado al cliente para el consumo del API.",
+        "name": "x-api-key",
+        "in": "header"
+      },
+      "authorizer": {
+        "type": "apiKey",
+        "description": "Token JWT para el consumo del API.",
+        "name": "Authorization",
+        "in": "header",
+        "x-amazon-apigateway-authtype": "custom",
+        "x-amazon-apigateway-authorizer": {
+          "type": "token",
+          "identitySource": "v1",
+          "authorizerUri": {
+            "Fn::Sub": "arn:aws:apigateway:${RegionToDeploy}:lambda:path/2015-03-31/functions/arn:aws:lambda:${RegionToDeploy}:${AwsAccountIdToDeploy}:function:${LambdaAuthorizer}:production/invocations"
+          },
+          "authorizerResultTtlInSeconds": 3600,
+          "identityValidationExpression": "^Bearer [-0-9a-zA-z\\.]*$"
+        }
+      }
+    }
+  }
+}

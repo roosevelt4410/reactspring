@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const BASE_URL = 'http://localhost:8080/users';
-
+const BASE_URL = 'http://localhost:8080/users'; 
+/* const BASE_URL = 'http://localhost:8080/apitestswagger-0.0.1/users'; */
 const config = () => {
     return {
         headers: {

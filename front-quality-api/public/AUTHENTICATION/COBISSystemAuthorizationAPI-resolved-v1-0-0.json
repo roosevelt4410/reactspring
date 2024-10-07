@@ -1,0 +1,1277 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "COBIS Systems Authentication API",
+    "description": "API de autenticación de aplicaciones (B2B) del Core Banking System. Se encuentran definidos los servicios esenciales para la autenticación. Puedes conseguir mas información en nuestra sitio web: [http://www.cobiscorp.com](http://www.cobiscorp.com).",
+    "contact": {
+      "name": "COBIS Support Center",
+      "url": "http://www.cobiscorp.com/contact-us/customer-technical-support/",
+      "email": "support.center@cobiscorp.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Operaciones de autenticación para usuarios que operan sobre el core bancario."
+    }
+  ],
+  "paths": {
+    "/system-auth/authentication-role": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "AuthenticationRolePST",
+        "parameters": [
+          {
+            "name": "x-financial-id",
+            "in": "header",
+            "description": "ID del banco o entidad que provee los servicios financieros.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-terminal",
+            "in": "header",
+            "description": "Terminal (IP, número de teléfono, o identificador del dispositivo) desde el cual se originó la solicitud o petición por el usuario en la aplicación de front-end.",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-zA-Z0-9_.-.+]*$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "description": "Identificador único de la solicitud o petición.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "x-end-user-login",
+            "in": "header",
+            "description": "Login de usuario en la aplicación de front-end que realiza la petición.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-request-date-time",
+            "in": "header",
+            "description": "Fecha y hora en la que se originó la solicitud o petición por el usuario en la aplicación de front-end.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-channel",
+            "in": "header",
+            "description": "Identificador del canal desde el cual se origina la solicitud.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ChannelCode"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationRolePSTRq"
+              },
+              "example": {
+                "authentication": {
+                  "login": "nombreusuario",
+                  "password": "xxxxxx"
+                },
+                "subsidiary": {
+                  "code": 1
+                },
+                "branch": {
+                  "code": 1
+                },
+                "role": {
+                  "code": 1
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "201 - Autenticación exitosa",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "AccessToken": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "x-jws-signature": {
+                "$ref": "#/components/headers/x-jws-signature"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              }
+            }
+          },
+          "400": {
+            "description": "El mensaje de solicitud no se encuentra debidamente formateado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El mensaje de solicitud no se encuentra debidamente formateado."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No se encuentra autorizado para ejecutar la operación.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "No se encuentra autorizado para ejecutar la operación."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "La operación presentó un error durante la ejecución.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "La operación presentó un error durante la ejecución."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Se presentó un error durante el procesamiento de la solicitud.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Se presentó un error durante el procesamiento de la solicitud."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-amazon-apigateway-request-validator": "all",
+        "x-amazon-apigateway-integration": {
+          "type": "aws",
+          "uri": {
+            "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SystemAuthorizationRolePostAliasproduction}/invocations"
+          },
+          "responses": {
+            "400": {
+              "statusCode": "400",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n{\"message\": \"El mensaje de solicitud no se encuentra debidamente formateado.\"}"
+                }
+              }
+            },
+            "401": {
+              "statusCode": "401",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n{\"message\": \"No se encuentra autorizado para ejecutar la operación.\"}"
+                }
+              }
+            },
+            "409": {
+              "statusCode": "409",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n{\"message\": \"Estado inválido para autenticación.\"}"
+                }
+              }
+            },
+            "default": {
+              "statusCode": "201",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,AccessToken,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n#set($token = $input.path('$.idToken'))\n#set($context.responseOverride.header.Authorization=\"Bearer $token\")\n#set($accessToken = $input.path('$.accessToken'))\n#set($context.responseOverride.header.AccessToken=\"$accessToken\")"
+                }
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "requestTemplates": {
+            "application/json": "{\n  \"header\": {\n    \"aws_request_id\": \"$context.requestId\",\n    \"x_authorization\": \"$input.params().header.get('Authorization')\",\n    \"x_end_user_login\": \"$input.params().header.get('x-end-user-login')\",\n    \"x_financial_id\": \"$input.params().header.get('x-financial-id')\",\n    \"x_end_user_request_date_time\": \"$input.params().header.get('x-end-user-request-date-time')\",\n    \"x_end_user_terminal\": \"$input.params().header.get('x-end-user-terminal')\",\n    \"x_request_id\": \"$input.params().header.get('x-request-id')\",\n    \"x_channel\": \"$input.params().header.get('x-channel')\"\n  },\n  \"body\" :  $input.json('$'),\n  \"getbody\": {\n    \"queries\":{\n      #foreach($param in $input.params().querystring.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\"#if($foreach.hasNext),#end\n      #end\n    },\n    \"params\": {\n      #foreach($param in $input.params().path.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\"#if($foreach.hasNext),#end\n      #end\n    }\n  },\n  \"service\": {\n    \"apiId\": \"$context.apiId\",\n    \"apiType\":\"Systems\",\n    \"operationId\": \"com.cobis.cloud.authentication.aws.lambda.funtion.AuthenticationRolePST\",\n    \"catalogCode\": \"A000\",\n    \"version\": \"v1\",\n    \"successfulStatusCode\": \"200\"\n  }\n}"
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "options",
+        "description": "options",
+        "operationId": "AuthenticationRoleOPT",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Accept": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST,PUT,DELETE,PATCH'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end"
+                }
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    },
+    "/system-auth/change-password": {
+      "options": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "options",
+        "description": "options",
+        "operationId": "SystemsAuthenticationChangePasswordOPT",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Methods": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Headers": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Accept": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST,PUT,DELETE,PATCH'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end"
+                }
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      },
+      "patch": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Valida la información de cambio de contraseña y realiza el cambio si esta es correcta.",
+        "description": "Cambio de contraseña para sistemas.",
+        "operationId": "SystemsAuthenticationChangePasswordPTC",
+        "parameters": [
+          {
+            "name": "x-financial-id",
+            "in": "header",
+            "description": "ID del banco o entidad que provee los servicios financieros.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-terminal",
+            "in": "header",
+            "description": "Terminal (IP, número de teléfono, o identificador del dispositivo) desde el cual se originó la solicitud o petición por el usuario en la aplicación de front-end.",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-zA-Z0-9_.-.+]*$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "description": "Identificador único de la solicitud o petición.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/RequestID"
+            }
+          },
+          {
+            "name": "x-end-user-login",
+            "in": "header",
+            "description": "Login de usuario en la aplicación de front-end que realiza la petición.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-end-user-request-date-time",
+            "in": "header",
+            "description": "Fecha y hora en la que se originó la solicitud o petición por el usuario en la aplicación de front-end.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ISODateTime"
+            }
+          },
+          {
+            "name": "x-channel",
+            "in": "header",
+            "description": "Identificador del canal desde el cual se origina la solicitud.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ChannelCode"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationChangePasswordPSTRq"
+              },
+              "example": {
+                "oldPassword": "contraseña antigua",
+                "newPassword": "contraseña nueva",
+                "accessToken": "XXXXX"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "201 - Cambio de contraseña exitoso.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "x-jws-signature": {
+                "$ref": "#/components/headers/x-jws-signature"
+              },
+              "Content-Language": {
+                "$ref": "#/components/headers/Content-Language"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              }
+            }
+          },
+          "400": {
+            "description": "El mensaje de solicitud no se encuentra debidamente formateado.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "El mensaje de solicitud no se encuentra debidamente formateado."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No se encuentra autorizado para ejecutar la operación.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "No se encuentra autorizado para ejecutar la operación."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "La operación presentó un error durante la ejecución.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "Accept": {
+                "$ref": "#/components/headers/Accept"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "La operación presentó un error durante la ejecución."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Se presentó un error durante el procesamiento de la solicitud.",
+            "headers": {
+              "x-correlation-id": {
+                "$ref": "#/components/headers/x-correlation-id"
+              },
+              "Access-Control-Allow-Origin": {
+                "$ref": "#/components/headers/Access-Control-Allow-Origin"
+              },
+              "Access-Control-Allow-Headers": {
+                "$ref": "#/components/headers/Access-Control-Allow-Headers"
+              },
+              "Access-Control-Allow-Credentials": {
+                "$ref": "#/components/headers/Access-Control-Allow-Credentials"
+              },
+              "Strict-Transport-Security": {
+                "$ref": "#/components/headers/Strict-Transport-Security"
+              },
+              "Content-Security-Policy": {
+                "$ref": "#/components/headers/Content-Security-Policy"
+              },
+              "X-Content-Type-Options": {
+                "$ref": "#/components/headers/X-Content-Type-Options"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "message": "Se presentó un error durante el procesamiento de la solicitud."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-amazon-apigateway-request-validator": "all",
+        "x-amazon-apigateway-integration": {
+          "type": "aws",
+          "uri": {
+            "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SystemAuthorizationRolePostAliasproduction}/invocations"
+          },
+          "responses": {
+            "400": {
+              "statusCode": "400",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n{\"message\": \"El mensaje de solicitud no se encuentra debidamente formateado.\"}"
+                }
+              }
+            },
+            "401": {
+              "statusCode": "401",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n{\"message\": \"No se encuentra autorizado para ejecutar la operación.\"}"
+                }
+              }
+            },
+            "409": {
+              "statusCode": "409",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end\n{\"message\": \"Estado inválido para autenticación.\"}"
+                }
+              }
+            },
+            "default": {
+              "statusCode": "201",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-financial-id,x-end-user-terminal,x-request-id,x-end-user-login,x-end-user-request-date-time,x-channel'",
+                "method.response.header.Content-Security-Policy": "'default-src \"none\"; img-src \"self\"; script-src \"self\"; style-src \"self\"; object-src \"none\"'",
+                "method.response.header.Strict-Transport-Security": "'max-age=\"63072000\"'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.x-correlation-id": "integration.response.body.header.x_correlation_id",
+                "method.response.header.Accept": "'application/json; q=1.0'"
+              },
+              "responseTemplates": {
+                "application/json": {
+                  "Fn::Sub": "#set($domains = \"${AllowedDomains},\")\n#if($domains == \"*,\")\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"*\")\n#else\n#set($domainsArray = $domains.split(\",\"))\n#set($origin = $input.params(\"origin\"))\n#foreach ($regex in $domainsArray)\n#if($origin.toString().matches($regex))\n#set($context.responseOverride.header.Access-Control-Allow-Origin=\"$origin\")\n#break\n#end\n#end\n#end"
+                }
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "requestTemplates": {
+            "application/json": "{\n  \"header\": {\n    \"aws_request_id\": \"$context.requestId\",\n    \"x_authorization\": \"$input.params().header.get('Authorization')\",\n    \"x_end_user_login\": \"$input.params().header.get('x-end-user-login')\",\n    \"x_financial_id\": \"$input.params().header.get('x-financial-id')\",\n    \"x_end_user_request_date_time\": \"$input.params().header.get('x-end-user-request-date-time')\",\n    \"x_end_user_terminal\": \"$input.params().header.get('x-end-user-terminal')\",\n    \"x_request_id\": \"$input.params().header.get('x-request-id')\",\n    \"x_channel\": \"$input.params().header.get('x-channel')\"\n  },\n  \"body\" :  $input.json('$'),\n  \"getbody\": {\n    \"queries\":{\n      #foreach($param in $input.params().querystring.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\"#if($foreach.hasNext),#end\n      #end\n    },\n    \"params\": {\n      #foreach($param in $input.params().path.keySet())\n      \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\"#if($foreach.hasNext),#end\n      #end\n    }\n  },\n  \"service\": {\n    \"apiId\": \"$context.apiId\",\n    \"apiType\":\"Systems\",\n    \"operationId\": \"com.cobis.cloud.authentication.aws.lambda.funtion.changepassword.AuthChangePasswordFuntionHandlerPST\",\n    \"catalogCode\": \"A000\",\n    \"version\": \"v1\",\n    \"successfulStatusCode\": \"200\"\n  }\n}"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuthenticationChangePasswordPSTRq": {
+        "required": [
+          "accessToken",
+          "newPassword",
+          "oldPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "minLength": 3,
+            "type": "string",
+            "description": "Contraseña antigua del usuario systems."
+          },
+          "newPassword": {
+            "minLength": 3,
+            "type": "string",
+            "description": "Nueva contraseña del usuario systems."
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "Token de acceso."
+          }
+        },
+        "description": "Petición de cambio de contraseña para usuario systems."
+      },
+      "AuthenticationRolePSTRq": {
+        "required": [
+          "authentication",
+          "branch",
+          "role",
+          "subsidiary"
+        ],
+        "type": "object",
+        "properties": {
+          "authentication": {
+            "required": [
+              "login",
+              "password"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "subsidiary": {
+            "required": [
+              "code"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Subsidiary"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "branch": {
+            "required": [
+              "code"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Branch"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "role": {
+            "required": [
+              "code"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Role"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "description": "Información del usuario COBIS para autenticación con un rol específico."
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "subsidiary": {
+            "$ref": "#/components/schemas/Subsidiary"
+          },
+          "branch": {
+            "$ref": "#/components/schemas/Branch"
+          },
+          "login": {
+            "$ref": "#/components/schemas/UserLogin"
+          },
+          "assignmentDate": {
+            "type": "string",
+            "description": "Fecha de asignación.",
+            "format": "date"
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "description": "Fecha de última modificación.",
+            "format": "date"
+          },
+          "lastUpdatePasswordDate": {
+            "type": "string",
+            "description": "Fecha de última modificación de la contraseña.",
+            "format": "date"
+          },
+          "status": {
+            "maxLength": 1,
+            "minLength": 1,
+            "type": "string",
+            "description": "Estado."
+          },
+          "password": {
+            "$ref": "#/components/schemas/Password"
+          }
+        },
+        "description": "Usuario."
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Código del rol de cliente.",
+            "format": "int32"
+          },
+          "subsidiary": {
+            "$ref": "#/components/schemas/Subsidiary"
+          },
+          "description": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Descripción del rol."
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "Fecha de creación del rol.",
+            "format": "date-time"
+          },
+          "lastUpdatedDate": {
+            "type": "string",
+            "description": "Fecha de última actualización del rol.",
+            "format": "date-time"
+          },
+          "branch": {
+            "$ref": "#/components/schemas/Branch"
+          }
+        },
+        "description": "Rol de cliente funcionario de la entidad financiera."
+      },
+      "Branch": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/BranchCode"
+          },
+          "name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string",
+            "description": "Nombre de oficina."
+          }
+        },
+        "description": "Oficina."
+      },
+      "Subsidiary": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maximum": 255,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Código de la filial.",
+            "format": "int32"
+          },
+          "name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string",
+            "description": "Nombre de la filial."
+          },
+          "status": {
+            "maxLength": 1,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "description": "Filial."
+      },
+      "BranchCode": {
+        "maximum": 32767,
+        "minimum": 1,
+        "type": "integer",
+        "description": "Código interno de la cuenta",
+        "format": "int32"
+      },
+      "UserLogin": {
+        "maxLength": 30,
+        "minLength": 1,
+        "type": "string",
+        "description": "Login de usuario en el sistema CORE. Los usuarios autorizados realizan y autorizan transacciones en  el sistema."
+      },
+      "Password": {
+        "maxLength": 30,
+        "minLength": 1,
+        "type": "string",
+        "description": "Contraseña del usuario funcionario.",
+        "format": "password"
+      },
+      "RequestID": {
+        "type": "string",
+        "description": "Identificador único de una petición o solicitud.",
+        "format": "uuid"
+      },
+      "ISODateTime": {
+        "type": "string",
+        "description": "Fecha y hora ISO 8601 formato",
+        "format": "date-time"
+      },
+      "ChannelCode": {
+        "type": "string",
+        "description": "'Identificador del canal y código de oficina separado por \":\" (Solo si aplica la oficina).\n  Ejemplo: 35 o 35:1"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Descripción del error general."
+          },
+          "error": {
+            "type": "array",
+            "description": "Lista de los errores específicos.",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "Mensaje de respuesta de error."
+      },
+      "Error": {
+        "properties": {
+          "code": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "Código de error específico."
+          },
+          "id": {
+            "maxLength": 40,
+            "minLength": 1,
+            "type": "string",
+            "description": "Id de referencia única para propósitos de auditoría."
+          },
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Descripción del error específico."
+          },
+          "path": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "Al referirse de un error debido a un campo específico, se describe la ruta del campo."
+          },
+          "url": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string",
+            "description": "URL de la documentación en donde se encuentra mayor información sobre el error."
+          }
+        },
+        "description": "Error específico que describe un problema presentado al ejecutar una operación."
+      }
+    },
+    "headers": {
+      "x-correlation-id": {
+        "description": "ID que relaciona la respuesta con la solicitud. El valor de este campo debe coincidir con el valor x-request-id enviado en la solicitud.",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "x-jws-signature": {
+        "description": "JSON Web Signature (JWS) generado para firmar las peticiones RS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Content-Language": {
+        "description": "Indica el conjunto de lenguajes de preferencia que soporta el API en la respuesta, valor por defecto Español Colombia (es-CO). Ver https://tools.ietf.org/html/rfc5646",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Origin": {
+        "description": "Header para especificar los origenes permitidos en integraciones CORS.",
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Headers": {
+        "description": "Header para especificar los headers y parámetros permitidos en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Access-Control-Allow-Credentials": {
+        "description": "Header para especificar si se maneja o no credenciales cuando en la cabecera Access-Control-Allow-Origin se define un dominio en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Content-Security-Policy": {
+        "description": "Header para especificar si se maneja o no credenciales cuando en la cabecera Access-Control-Allow-Origin se define un dominio en integraciones CORS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Strict-Transport-Security": {
+        "description": "Header para especificar que las invocaciones a la API solo se deben realizar por HTTPS.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "X-Content-Type-Options": {
+        "description": "Header que permite evitar el sniffing de tipo MIME diciendo que los tipos MIME son deliberadamente configurados.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Accept": {
+        "description": "Header para especificar que tipo de archivos son permitidos en las peticiones.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "x-api-key",
+        "in": "header"
+      }
+    }
+  },
+  "x-amazon-apigateway-request-validators": {
+    "all": {
+      "validateRequestBody": true,
+      "validateRequestParameters": true
+    },
+    "params-only": {
+      "validateRequestBody": false,
+      "validateRequestParameters": true
+    }
+  }
+}

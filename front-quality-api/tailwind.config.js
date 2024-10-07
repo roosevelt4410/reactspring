@@ -8,11 +8,12 @@ module.exports = {
       colors: {
         'empresa-rojo': '#B12923',
         'empresa-verde': '#008C4F',
-        'empresa-negro':'#121212',
+        'empresa-negro':'#282c34',
         'bg-empresa-verde-dark':'#006837'
       },
     },
   },
   plugins: [],
+  devtool: false
 }
 
